@@ -1,0 +1,85 @@
+package cw;
+
+public class CreatingAHuman{
+
+	private int age;
+	private int height;
+	private String name;
+	
+	//constructor (user has to input those 3 parameters)
+	public CreatingAHuman(int age, int height, String n) {
+		
+		this.age = age;
+		this.height = height;
+		name = n;
+		
+	}
+	
+	public int getAge() {
+		
+		return age;
+		
+	}
+	
+	public void setAge(int newAge) {
+		
+		age = newAge;
+		
+	}
+	
+	public String toString() {
+		
+		return "I am" + " " + name + ", I am" + " " + age + " " + "years old" + "," + "I am" + " " + height + "inches" ;
+		
+	}
+	
+	public void eat(int foodAmount) {
+		
+		height += foodAmount/100;
+		
+	}
+	
+	public void getOlder() {
+		
+		age++;
+		
+	}
+	
+	public boolean vote (int year) {
+		
+		if (year % 4 == 0) {
+			
+			if (age >= 18) {
+				
+				return true;
+				
+			}
+		}
+		
+		return false;
+		
+	}
+	
+	public void changeName(String newName) {
+		
+		name = newName;
+		
+	}
+	
+	
+	
+	public static void main(String[] args){
+	
+		CreatingAHuman g = new CreatingAHuman (5, 45, "Anika");
+		
+		g.eat(1005);
+		g.getOlder();
+		g.changeName("Bob");
+		
+		System.out.println(g.vote(2020));
+		
+		System.out.println(g);
+	
+		}
+	
+}
