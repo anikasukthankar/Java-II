@@ -1,0 +1,56 @@
+package cw;
+
+public class BankAccount{
+
+	private int money;
+	private String name;
+	private double interest;
+	
+	//constructor (user has to input those 3 parameters)
+	public BankAccount(int m, double i, String n) {
+		
+		this.money = m;
+		this.interest = i;
+		name = n;
+		
+	}
+	
+	public BankAccount(String n, double i) {
+		
+		money = 0;
+		this.interest = i;
+		name = n;
+		
+	}
+	
+	public void deposit (int n) {
+		
+		money += n;
+		
+	}
+	
+	public void withdraw(int n) {
+		
+    money -= n;
+	
+  }
+	
+	public void addInterest() {
+		
+    money += (interest*money);
+	
+  }
+	
+	
+	public String toString() {
+		
+		return "I am" + " " + name + ", I have" + " " + money + " " + "dollars" + " , " + "I pay a monthly interest of" + " " + interest;
+		
+	}
+		
+	public static void main(String[] args){
+		
+	
+	}
+	
+}
