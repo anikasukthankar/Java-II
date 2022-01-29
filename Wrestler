@@ -1,0 +1,108 @@
+package cw;
+
+public class Wrestler{
+
+	private int weight;
+	private int dubs;
+	private String name;
+	private String outfit;
+	
+	//constructor (user has to input these 4 parameters)
+	public Wrestler(int w, int d, String c, String n) {
+		
+		this.weight = w;
+		this.dubs = d;
+		outfit = c;
+		name = n;
+		
+	}
+	
+	public void intimidate() {
+		System.out.println("Kachow!");
+		
+	}
+	
+	public void lift(int minutes) {
+		weight += (double)minutes/100;
+	}
+	
+	public boolean fight(Wrestler o) {
+		
+		if (this.weight > o.weight) {
+			dubs++;
+			return true;
+			
+		}
+		
+		else if (o.weight > weight) {
+			
+			o.dubs++;
+			return false;
+			
+		}
+		
+		else {
+			
+			if (name.compareToIgnoreCase(o.name) < 0) {
+				dubs++;
+				return true;
+				
+			}
+			
+			else {
+				
+				dubs++;
+				return false;
+			}
+			
+		}
+		
+	}
+	
+	public boolean tagTeam(Wrestler[] a, Wrestler[] o) {
+		
+		double allyWeight = this.weight, enemyWeight = 0;
+		
+		for (int i = 0; i< o.length; i++) {
+			
+			o[i].outfit = o[0].outfit;
+			enemyWeight += o[i].weight;
+			
+		}
+		
+		if (allyWeight >= enemyWeight) {
+			
+			dubs++;
+			
+			for (Wrestler w : a) {
+				
+				w.dubs++;
+				
+			}
+			
+			return true;
+			
+		}
+			
+			
+		else {
+				
+			for (Wrestler w: o) {
+					
+				w.dubs++;
+					
+			}
+				
+			return false;
+			
+		}
+		
+	}
+	
+	public static void main(String[] args){
+	
+		
+	
+		}
+	
+}
