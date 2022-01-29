@@ -101,8 +101,7 @@ public class Wrestler{
 	
 	public static void main(String[] args){
 	
-		
 	
-		}
+	}
 	
 }
