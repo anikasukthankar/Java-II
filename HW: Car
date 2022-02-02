@@ -1,0 +1,55 @@
+package homework;
+
+public class Car {
+	
+	private int mileage;
+	private int year;
+	private String name;
+	
+	//constructor 
+	public Car(int m, int y, String n) {
+		
+		this.mileage = m;
+		this.year = y;
+		name = n;
+		 
+	}
+	
+	//first, a method called drive. 
+	//This method takes a parameter distance. 
+	//When this method is called, the mileage increases by the distance driven.
+	
+	public int drive(int distance) {
+		
+		return mileage += distance;
+		
+	}
+	
+	//second, a method called worth. 
+	//This method should return a number representing how much this Car is currently worth. 
+	//Come up with a formula to calculate the Car's worth 
+	//it should involve how old it is and how many miles it's driven 
+	
+	public int worth() {
+		
+		return year - (mileage/1000);
+		
+	}
+	
+	//finally, a simple method called getMileage. 
+	//All this method does is return the car's mileage 
+	//this is how we'll access the car's mileage in the other class, 
+	//since mileage is a private variable.
+	
+	public int getMileage() {
+		
+		return mileage;
+		
+	}
+	
+	public static void main(String[] args) {
+		
+	
+	}
+	
+}
