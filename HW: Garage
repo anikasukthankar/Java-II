@@ -1,0 +1,82 @@
+package homework;
+
+public class Garage {
+	
+	private Car[] cars;
+	
+	//The Garage class will keep track of a single piece of information 
+	//an array of Cars (Car is now a valid data type, so we can make an array of them). 
+	//The constructor for our Garage should take a single parameter n. 
+	//This is the number of Cars that are stored in the Garage. 
+	
+	public Garage(int n) {
+		
+		cars = new Car[n];
+	
+	}
+	
+
+	//A method called addCar that takes 4 parameters: i, name, year, and mileage. 
+	//This method should build a new Car with the given name, year, and mileage. 
+	//Then, put this new Car into our array at index i. 
+	//If there's already a car at this index, it gets replaced. 
+	
+	public void addCar(int i, String name, int year, int mileage) {
+		
+		cars[i] = new Car(mileage, year, name);
+		
+	}
+	
+	//A method called totalWorth. 
+	//This method should return the worth of all the Cars in our array  
+	
+	public int getWorth() {
+		
+		int totwor = 0;
+		
+		// runs through Car array
+		
+		for (Car car: cars) {
+			
+			// checks if car array has value/worth & adds worth of all cars
+			
+			if (car != null)
+				
+				totwor += car.worth();
+		}
+		
+		return totwor;
+
+	}
+	
+	//A method called drive. 
+	///This method should take parameters i and n, and take the car at slot i for a drive, going n miles.
+	
+	public void drive(int i, int n) {
+		
+		//calls drive method from Cars class
+		cars[i].drive(n);
+		
+	}
+	
+	//A method called averageMileage. 
+	//This method should return the average mileage of all our Cars in the array.
+	
+	public void averageMileage() {
+		
+		
+	}
+		
+
+	public static void main(String[] args) {
+		
+		Garage g = new Garage(3); 
+		g.addCar(0,"Audi", 2020, 1234);
+		g.addCar(1,"BMW", 2004, 5678);
+		g.addCar(2,"Mercedes", 2010, 91011);
+		
+		System.out.println(g.getWorth());
+	
+	}
+	
+}
