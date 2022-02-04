@@ -1,0 +1,112 @@
+package homework;
+
+public class Deck {
+	
+	private Card[] deck = new Card[52];
+	
+	public Deck() {
+		
+		String[] suits = {"clubs", "spades", "diamonds", "hearts"};
+		int c = 0;
+		
+		for (int i = 0; i < suits.length; i++) {
+			
+			for (int j = 0; j < 13; j++) {
+				
+				deck[c] = new Card(suits[i], j+1);
+				c++;
+			}
+			
+		}
+	
+	}
+	
+	public Card[] getDeck() {
+		
+		return deck;
+		
+	}
+	
+	//toString (which uses all 52 Cards' toString methods to return a string showing the contents of the Deck)
+	
+	public String toString() {
+		
+		String output = "";
+		
+		for (Card c: deck) {
+			
+			output += c.toString();
+			
+		}
+		
+		return output;
+		
+	}
+	
+	
+	//getRandom (which returns a random Card from the Deck)
+	
+	public Card getRandom() {
+		
+		return (deck[(int) (Math.random()*52)]);
+		
+	}
+	
+	//getFirstN (which takes a parameter n
+	//returns array of Cards containing first n Cards in Deck)
+	
+	public Card[] getFirstN(int n) {
+		
+		Card[] arr = new Card[n];
+		
+		for (int i = 0; i < n; i++) {
+			
+			arr[i] = deck[i];
+			
+		}
+		
+		return arr;
+		
+	}
+	
+	//sort (which sorts the cards by num) 
+	
+	public void sort() {
+	
+		int m = Integer.MAX_VALUE;
+		
+		for (int i = 0; i < 52; i++) {
+			
+			int minIndex = i;
+			
+			for (int j = i; j < 52; j++) {
+				
+				if (m > deck[j].getNum()) {
+					
+					m = deck[j].getNum();
+					minIndex = j;
+					
+				}
+				
+				
+			}
+			
+			Card arr = deck[i];
+			deck[i] = deck[minIndex];
+			deck[minIndex] = arr;
+			
+		}
+		
+		
+	}
+	
+	///shuffle (which randomly mixes the Cards
+
+	
+	public static void main(String[] args) {
+		
+		
+		}
+	}
+
+	
