@@ -64,10 +64,22 @@ public class Garage {
 	
 	public void averageMileage() {
 		
+		int c = 0; 
+		int t = 0;
+		
+		for (Car car : cars) {
+			
+			if (car != null) {
+				t+= car.getMileage();
+				c++;
+				
+			}
+		}
+		
+		return c != 0 ? t/c: 0;
 		
 	}
 		
-
 	public static void main(String[] args) {
 		
 		Garage g = new Garage(3); 
