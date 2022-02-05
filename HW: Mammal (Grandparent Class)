@@ -1,0 +1,49 @@
+package cw;
+
+public class InheritanceMammals{
+
+	private int weight;
+	private int dubs;
+	private String name;
+	private String outfit;
+	
+	//constructor (user has to input these 4 parameters)
+	public InheritanceMammals(int w, int d, String c, String n) {
+		
+		this.weight = w;
+		this.dubs = d;
+		outfit = c;
+		name = n;
+		
+	}
+	
+	private int age;
+	private char gender;
+	
+	
+	public void setAge(int age){
+		this.age = age;
+	}
+	
+  public int getAge() {
+		
+    return age;
+	
+  }
+	
+	
+	public void setGender(char gender) {
+		this.gender = gender;	
+	}
+	
+	public char getGender() {
+		return gender;
+	}
+	
+	public static void main(String[] args){
+	
+		
+	
+		}
+	
+}
