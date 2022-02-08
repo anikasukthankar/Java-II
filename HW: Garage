@@ -15,7 +15,6 @@ public class Garage {
 	
 	}
 	
-
 	//A method called addCar that takes 4 parameters: i, name, year, and mileage. 
 	//This method should build a new Car with the given name, year, and mileage. 
 	//Then, put this new Car into our array at index i. 
@@ -54,15 +53,26 @@ public class Garage {
 	
 	public void drive(int i, int n) {
 		
-		//calls drive method from Cars class
-		cars[i].drive(n);
+		if (cars[i] != null) {
+			
+			//calls drive method from Cars class
+			
+			cars[i].drive(n);
+			
+		}
+		
+		else {
+			
+			System.out.println("This car does not exist!");
+			
+		}
 		
 	}
 	
 	//A method called averageMileage. 
 	//This method should return the average mileage of all our Cars in the array.
 	
-	public void averageMileage() {
+	public int averageMileage() {
 		
 		int c = 0; 
 		int t = 0;
@@ -70,13 +80,15 @@ public class Garage {
 		for (Car car : cars) {
 			
 			if (car != null) {
+				
 				t+= car.getMileage();
 				c++;
 				
 			}
+			
 		}
 		
-		return c != 0 ? t/c: 0;
+		return t/c;
 		
 	}
 		
@@ -86,8 +98,8 @@ public class Garage {
 		g.addCar(0,"Audi", 2020, 1234);
 		g.addCar(1,"BMW", 2004, 5678);
 		g.addCar(2,"Mercedes", 2010, 91011);
-		
-		System.out.println(g.getWorth());
+	
+		System.out.println(g.cars[2].getMileage());
 	
 	}
 	
