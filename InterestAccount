@@ -1,0 +1,39 @@
+package cw;
+
+public class InterestAccount extends BankAccount{
+
+	private double interest;
+	
+	//constructor 
+	public InterestAccount(double b, String n, double i) {
+		
+		super(b, n);
+		this.interest = i;
+	
+	}
+	
+	public InterestAccount(String n, double i) {
+		
+		super(n);
+		this.interest = i;
+		
+	}
+	
+	public void addInterest() {
+		deposit(interest*getBalance());
+	}
+	
+	
+	public String toString() {
+		
+		return "I am" + " " + getName() + ", I have" + " " + getBalance() + " " + "dollars" + " , " + "I pay a monthly interest of" + " " + interest;
+		
+	}
+	
+	public static void main(String[] args){
+		InterestAccount n = new InterestAccount(5, "d", 3);
+		
+	
+	}
+	
+}
