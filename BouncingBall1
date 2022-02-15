@@ -1,0 +1,29 @@
+package inheritance;
+
+import java.awt.Color;
+
+import inheritance.Ball;
+
+public class BouncingBall1 extends Ball {
+
+	public BouncingBall1(int startx, int starty, int startrad, int startxspeed, int startyspeed, Color startcolor) {
+		super(startx, starty, startrad, startxspeed, startyspeed, startcolor);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void move(){
+		
+		super.move();
+		
+		if (getX() <= 0 || getX() + getRad() > WIDTH) {
+			setXSpeed(getXSpeed()*-1);
+		}
+		
+				
+		if (getY() <= 0 || getY() + getRad() > HEIGHT) {
+			setYSpeed(getYSpeed()*-1);
+		}
+		
+	}
+
+}
