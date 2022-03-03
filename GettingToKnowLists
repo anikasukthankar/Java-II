@@ -1,0 +1,109 @@
+package lists;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class GettingToKnow{
+	
+	public static ArrayList<Character> everySecond(ArrayList<Character> list) {
+		
+		for (int i = 0; i < list.size(); i++) {
+			
+			list.remove(i);
+		}
+		
+		return list;
+		
+	}
+	
+	public static ArrayList<String> reverseString(String[] s) {
+		
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for (int i = 0; i < s.length; i++) {
+			
+			list.add(0, s[i]);
+			
+		}
+		
+		return list;
+		
+	}
+	
+	public static ArrayList<Double> twiceDouble(ArrayList<Double> list) {
+		
+		for (int i = 0; i < list.size(); i++) {
+			
+			list.set(i,(list.get(i)*2));
+		}
+		
+		return list;
+		
+	}
+	
+	//Create a method takes a parameter n. 
+	//It should first create a new list of characters. 
+	//The letters of the alphabet should then be added in this way: 
+	//add 'a' to the front of the list
+	//then add 'b' to the back of the list
+	//then add 'c' to the front of the list
+	//then add 'd' to the back of the list, and so on. Do this n times. 
+	//For example if n = 5, the list would be ['e', 'c',' a', 'b', 'd']
+	
+	public static ArrayList<Character> nCharacters(int n) {
+		
+		ArrayList<Character> list = new ArrayList<Character>();
+		
+		for (int i = 97; i < 97+n; i++) {
+			
+			if (i % 2 == 0) {
+				
+				list.add((char)(i));
+				
+			}
+			
+			else {
+				
+				//if odd, adds to start of list
+				list.add(0, (char)(i));
+				
+			}
+			
+		}
+		
+		return list;
+		
+	}
+	
+	public static void main (String[] args) {
+		
+		//PROBLEM 1
+		//ArrayList<Character> list = new ArrayList<Character>();
+		//adding values
+		//list.add('d');
+		//list.add('k');
+		//list.add('e');
+		//list.add('p');
+		//list.add('w');
+		//list.add('s');
+		//list.add('f');
+		//System.out.println(everySecond(list));
+		
+		//PROBLEM 2
+		String[] s= new String[] {"Lists", "are", "great"};
+		System.out.println(reverseString(s));
+		
+		//PROBLEM 3
+		ArrayList<Double> list = new ArrayList<Double>();
+		list.add(2.0);
+		list.add(3.5);
+		list.add(4.5);
+		System.out.println(twiceDouble(list));
+		
+		//PROBLEM 4
+		System.out.println(nCharacters(5));
+		
+	}
+	
+	
+}
