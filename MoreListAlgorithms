@@ -8,18 +8,70 @@ public class MoreListAlgorithms{
 	public static ArrayList<Integer> random(int n, int x) {
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i<n; i++) {
+			list.add((int)(Math.random()*x*2)-x);
+		}
+		return list;
+	}
+	
+	public static void reverse(ArrayList<Double> a) {
 		
-    		for (int i = 0; i<n; i++) {
-      			list.add((int)(Math.random()*x*2)-x);
-    		}
+		for (int i = 0; i<a.size(); i++) {
+			
+			a.add(i, a.remove(a.size()-1));
+		}
 		
-    		return list;
-  	}
+	}
+	
+	public static void separate(ArrayList<Integer> l){
+		
+		ArrayList<Integer> pos = new ArrayList<Integer>();
+		ArrayList<Integer> neg = new ArrayList<Integer>();
+		
+		for (int i = 0; i< l.size(); i++) {
+			
+			if (l.get(i)>=0) {
+				
+				pos.add(l.get(i));
+				
+			}
+			
+			else {
+				
+				neg.add(l.get(i));
+				
+			}
+			
+		}
+		
+		System.out.println(pos);
+		System.out.println(neg);
+		
+		
+	}
+	
+	
 	
 	public static void main (String[] args) {
 		
-		System.out.println(random(3, 3));	
+		//System.out.println(random(3, 3));
 		
+		ArrayList<Double> a = new ArrayList<Double>();
+		a.add(3.0);
+		a.add(2.0);
+		a.add(1.0);
+		reverse(a);
+		//System.out.println(a);
+		
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		l.add(-3);
+		l.add(2);
+		l.add(1);
+		l.add(-5);
+		separate(l);
+		System.out.println(l);
+	
 	}
-
+	
+	
 }
