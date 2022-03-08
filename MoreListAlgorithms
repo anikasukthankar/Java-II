@@ -1,0 +1,28 @@
+package lists;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class MoreListAlgorithms{
+	
+	public static ArrayList<Integer> random(int n, int x) {
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		
+    for (int i = 0; i<n; i++) {
+			
+      list.add((int)(Math.random()*x*2)-x);
+		
+    }
+		
+    return list;
+	
+  }
+	
+	public static void main (String[] args) {
+		
+		System.out.println(random(3, 3));	
+		
+	}
+
+}
