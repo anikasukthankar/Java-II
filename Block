@@ -1,0 +1,47 @@
+package lists;
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Block {
+	
+	//Create a Block class. 
+	//This class should hold 4 instance variables - x, y, color, and speed. 
+	//The class should have at least 3 methods: a constructor, draw(Graphics g), & move()
+	
+	private int x;
+	private int y;
+	private int speed;
+	private Color color;
+	
+	public Block(int x, int y, Color c, int s) {
+		
+		// TODO Auto-generated constructor stub
+		this.x = x;
+		this.y = y;
+		this.color = c;
+		this.speed = s;
+		
+	}
+	
+	public int getX() {
+		return x;
+		
+	}
+	
+	public int getY() {
+		return y;
+		
+	}
+	
+	public void draw(Graphics g) {
+		g.setColor(color);
+		g.fillRect(x, y, 20, 20);
+
+	}
+	
+	public void move() {
+		y+=speed;
+		
+	}
+
+}
