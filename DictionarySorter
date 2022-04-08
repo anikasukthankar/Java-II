@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DictionarySorterFiller {
+public class DictionarySorter {
 	
 	public String mode = "insertion";	
 	public String fileName = "wordsShuffledSmaller.txt";
@@ -17,6 +17,23 @@ public class DictionarySorterFiller {
 		// your code here
 		for (int i = 0; i<words.size(); i++) {
 			
+			String m = words.get(i);
+			int min = i;
+			
+			for (int j = 0; j<words.size(); j++) {
+				
+				if (words.get(j).compareTo(m)<0) {
+					
+					m = words.get(j);
+					min = j;
+					
+				}
+				
+			}
+			
+		String s = words.get(i);
+		words.set(i,  m);
+		words.set(min, s);
 			
 			
 		}
@@ -29,13 +46,13 @@ public class DictionarySorterFiller {
 		// your code here
 		for (int i = 1; i < words.size(); i++) {
 				
-				int j = i;
+			int j = i;
 				
 				while(j>0 && words.get(j).compareTo(words.get(j-1)) < 0) {
 					
-					String s = ""{};
-					words.set(j-1, j);
-					words.get(j).equals(words.get(j-1));
+					String s = words.get(j);
+					words.set(j, words.get(j-1));
+					words.set(j-1, s);
 					j--;
 					
 				}
@@ -52,19 +69,55 @@ public class DictionarySorterFiller {
 	public void mergeSort(List<String> words, int start, int end) {
 		
 		// your code here
+		if (start < end) {
+			 int middle = (start + end)/2;
+			 mergeSort(words, start, middle);
+			 mergeSort(words, middle+1, end);
+			 merge(words, start, middle, end);
+			
+			
+		}
 
 	}
 	
 	public void merge(List<String> words, int start, int mid, int end) {
 
+		List<String> temp = new ArrayList<String>();
+		int i = start, j = mid +1;
 		
-
+		while (i <= mid && j <= end) {
+			if (words.get(i).compareTo(words.get(j))<0) {
+				temp.add(words.get(i));
+				i++;
+			}
+			
+			else {
+				temp.add(words.get(i));
+				j++;
+			}
+			
+		}
+		
+		while (i<=mid) {
+			temp.add(words.get(i));
+			i++;		
+		}
+		
+		while (j<= end) {
+			temp.add(words.get(j));
+			j++;
+		}
+		
+		int k = start;
+		for (String s : temp) {
+			words.set(k, s);
+		}
 	}
 	
 	public static void main(String[] args) throws IOException {
-		new DictionarySorterFiller();
+		new DictionarySorter();
 	}
-	public DictionarySorterFiller() throws IOException{
+	public DictionarySorter() throws IOException{
 		// generates the word list from the dictionary file
 		BufferedReader in = new BufferedReader(new FileReader(fileName));
 		List<String> words = new ArrayList<String>();
