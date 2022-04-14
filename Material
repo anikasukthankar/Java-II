@@ -1,0 +1,23 @@
+package lists;
+
+public class Material {
+	
+	private String name;
+	private int price;
+	
+	public Material(String n, int p) {
+		this.name = n;
+		this.price = p;	
+		
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+	
+	public String getName() {
+		return name;
+		
+	}
+	
+}
