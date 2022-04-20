@@ -1,0 +1,58 @@
+package lists;
+
+import java.util.ArrayList;
+
+public class Editor {
+	
+	private ArrayList<String> history = new ArrayList<String>();
+	private int index = 0;
+	
+	public Editor(String s) {
+		history.add(s);
+		
+	}
+	
+	public void change (String newWord) {
+		history.add(newWord);
+		index++;
+		
+	}
+	
+	public void delete () {
+		String curr = history.get(index);
+		history.add(curr.substring(0, curr.length()-1));
+		index++;
+		
+	}
+
+	public String toString() {
+		return (history.get(index));
+		
+	}
+	
+	public void undo() {
+		index -= 1;
+		
+	}
+	
+	public void redo() {
+		index += 1;
+		
+	}
+		
+
+	public static void main(String[] args) {
+		
+		Editor e = new Editor("hello");
+		System.out.println(e);
+		e.change("bye");
+		System.out.println(e);
+		e.delete();
+		System.out.println(e);
+		e.undo();
+		System.out.println(e);
+		e.redo();
+		System.out.println(e);
+	}
+	
+}
