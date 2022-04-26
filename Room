@@ -1,0 +1,80 @@
+package lists;
+
+import java.util.ArrayList;
+
+public class Room {
+	
+	private String name;
+	private double l, w, h;
+	private ArrayList<Material> materials;
+	private ArrayList<Double> amount;
+	
+	public Room(String n, double l, double w, double h, ArrayList<Material> materials, ArrayList<Double> amount) {
+		
+		this.name = n;
+		this.l = l;
+		this.w = w;
+		this.h = h;
+		this.materials = materials;
+		this.amount = amount;
+		
+	}
+	
+	public double getArea() {
+		return l*w;
+		
+	}
+	
+	public double getVolume() {
+		return l*w*h;
+		
+	}
+	
+	public ArrayList<Material> getMaterial(){
+		return materials;
+	}
+	
+	public ArrayList<Double> getAmount(){
+		return amount;
+	}
+	
+	public double getPrice() {
+		
+		double p = 0;
+		for (int i = 0; i<materials.size();i++) {
+			
+			p+=materials.get(i).getPrice()*amount.get(i);
+			
+		}
+		
+		return p;
+		
+	}
+	
+	public void setName(String name){
+        this.name = name;
+    }
+
+    public void setL(double l){
+        this.l = l;
+    }
+
+    public void setW(double w){
+        this.w = w;
+    }
+
+    public void setH(double h){
+        this.h = h;
+    }
+
+    public void setMaterial(ArrayList<Material> materials){
+        this.materials = materials;
+    }
+
+    public void setAmountMaterial(ArrayList<Double> amount){
+        this.amount = amount;
+    }
+	
+
+	
+}
