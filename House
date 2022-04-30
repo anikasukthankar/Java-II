@@ -1,0 +1,88 @@
+package lists;
+
+import java.util.ArrayList;
+
+public class House {
+	
+	ArrayList<Room> rooms = new ArrayList<Room>();
+	
+	public House() {
+		
+	}
+	
+	public void addRoom(Room room) {
+		
+		rooms.add(room);
+		
+	}
+	
+	public void setName(int i, String name){
+        
+		rooms.get(i).setName(name);
+    }
+
+    public void setL(int i, double l){
+    	
+    	rooms.get(i).setL(l);
+    }
+
+    public void setW(int i, double w){
+    	
+    	rooms.get(i).setW(w);
+    }
+
+    public void setH(int i, double h){
+    	
+    	rooms.get(i).setH(h);
+    }
+
+    public void setMaterial(int i, ArrayList<Material> materials){
+    	
+    	rooms.get(i).setMaterial(materials);
+    }
+
+    public void setAmount(int i, ArrayList<Double> amount){
+    	
+    	rooms.get(i).setAmount(amount);
+    }
+	
+	public double getPrice() {
+		int p = 0;
+		
+		for (int i = 0; i<rooms.size(); i++) {
+			p+= rooms.get(i).getPrice();
+			
+		}
+		
+		return p;
+	}
+	
+	public double getVolume() {
+		
+		double v = 0;
+		
+		for (int i = 0; i<rooms.size(); i++) {
+			v+= rooms.get(i).getVolume();
+			
+		}
+		
+		return v;
+		
+	}
+	
+	public double getSquare() {
+		
+		double s = 0; 
+		
+		for (int i = 0; i<rooms.size(); i++) {
+			s+= rooms.get(i).getArea();
+			
+		}
+		
+		return s;
+		
+	}
+	
+	
+	
+}
