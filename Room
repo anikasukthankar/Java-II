@@ -58,7 +58,7 @@ public class Room {
         this.materials = materials;
     }
 
-    public void setAmountMaterial(ArrayList<Double> amount){
+    public void setAmount(ArrayList<Double> amount){
         this.amount = amount;
     }
 	
