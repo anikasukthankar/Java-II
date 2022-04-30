@@ -1,0 +1,127 @@
+package maps;
+
+import java.util.Scanner;
+import java.util.HashMap;
+
+public class MoreWithMaps {
+
+	//Take a String -> Integer map as parameter & let the user choose a company name.
+	//This map holds the stock value of companies. Print out the value for this company. E
+	//If they type "average", print the average value of all companies. 
+	//If they type in a company name that doesn't exist in the map, print out the most value company. 
+	
+	public static void stocks(HashMap<String, Integer> vals, String company) {
+		
+		if (vals.containsKey(company)) {
+			
+			System.out.println(vals.get(company));
+		}
+		
+		else if (company.equalsIgnoreCase("average")) {
+			double sum = 0; 
+			for (int i : vals.values()) sum += i;
+			System.out.println(sum/vals.size());
+		}
+		
+		else {
+			String max = ""; 
+	
+			for (String c : vals.keySet()) 
+				if (!vals.containsKey(max) || vals.get(c) > vals.get(max))
+					max = c;
+					System.out.println("The most valuable company is " + max +
+					", with a value of $" + vals.get(max));
+		}
+	}
+	
+	//This map holds a person and their 009 target. 
+	//So the entire map will be circular. 
+	//Let the user choose a name. Start at this person, and print out their target. 
+	//Then print this target's target. 
+	//Continue doing this until you return to the original person.
+	
+	public static void double09(HashMap<String, String> targets, String start) {
+		String currTarget = targets.get(start);
+		System.out.print(start);
+		
+		while (!currTarget.equals(start)) {
+			System.out.print(", " + currTarget);
+			currTarget = targets.get(currTarget);
+		}
+	}
+	
+	//Create a map that represents Morse Code. 
+	//Use it to convert user messages from English to Morse Code. 
+	
+	public static void morseCode(HashMap<Character, String> morse, String s) {
+		
+		
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+//		//PROBLEM 1
+//		HashMap<String, Integer> comps = new HashMap<String, Integer>();
+//		comps.put("apple", 700);
+//		comps.put("ibm", 400);
+//		comps.put("tesla", 1000);
+//		stocks(comps, "whee");
+		
+//		//PROBLEM 2
+//		HashMap<String, String> people = new HashMap<String, String>();
+//		people.put("Ryan", "Yumna");
+//		people.put("Cooper", "Anika");
+//		people.put("Anika", "Ryan");
+//		people.put("Yumna", "Cooper");
+//		double09(people, "Cooper");
+		
+		//PROBLEM 3
+		HashMap<Character, String> morse = new HashMap<Character, String>();
+		morse.put('a', ".-");
+        morse.put('b', "-...");
+        morse.put('c',  "-.-");
+        morse.put('d',  "-..");
+        morse.put('e',    ".");
+        morse.put('f', "..-.");
+        morse.put('g',  "--.");
+        morse.put('h', "....");
+        morse.put('i',   "..");
+        morse.put('j', ".---");
+        morse.put('k',   "-.");
+        morse.put('l', ".-..");
+        morse.put('m',   "--");
+        morse.put('n',   "-.");
+        morse.put('o',  "---");
+        morse.put('p', ".--.");
+        morse.put('q', "--.-");
+        morse.put('r', ".-.");
+        morse.put('s',  "...");
+        morse.put('t',   "-");
+        morse.put('u',  "..-");
+        morse.put('v', "...-");
+        morse.put('w',  ".--");
+        morse.put('x', "-..-");
+        morse.put('y', "-.--");
+        morse.put('z', "--..");
+        
+        morse.put('1', ".----");
+        morse.put('2',"..---");
+        morse.put('3', "...--");
+        morse.put('4', "....-");
+        morse.put('5', ".....");
+        morse.put('6', "-....");
+        morse.put('7', "--...");
+        morse.put('8', "---..");
+        morse.put('9', "----.");
+        morse.put('0', "-----");
+        morse.put(' ', "/");
+        
+		morseCode(morse, "dog");
+		
+		
+	}
+
+
+}
