@@ -1,0 +1,51 @@
+package maps;
+
+import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class EnglishtoArabicTranslator {
+
+	private HashMap<String, String> translator = new HashMap<String, String>();
+	private final String file = "EnglishToArabicDictionary.txt";
+	
+	public void setup() {
+		
+		try {
+			
+			BufferedReader in = new BufferedReader(new FileReader(file));
+			
+			for (String line = in.readLine(); line != null; line = in.readLine()) {
+				translator.put(line, in.readLine());
+			}
+			
+			in.close();
+			
+		} 
+		
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+	}
+	
+	public String translate(String s) {
+		
+		return translator.get(s);
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		EnglishtoArabicTranslator test = new EnglishtoArabicTranslator();
+
+	}
+}
