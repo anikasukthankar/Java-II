@@ -10,8 +10,8 @@ public class EnglishtoArabicTranslator {
 
 	private HashMap<String, String> translator = new HashMap<String, String>();
 	private final String file = "EnglishToArabicDictionary.txt";
-	
-	public void setup() {
+		
+	public EnglishtoArabicTranslator() {
 		
 		try {
 			
@@ -37,8 +37,7 @@ public class EnglishtoArabicTranslator {
 			
 	}
 	
-	public String translate(String s) {
-		
+	public String toString(String s) {
 		return translator.get(s);
 		
 	}
@@ -46,6 +45,8 @@ public class EnglishtoArabicTranslator {
 	public static void main(String[] args) {
 		
 		EnglishtoArabicTranslator test = new EnglishtoArabicTranslator();
+		//System.out.println(test.translator);
+		System.out.println(test.toString("logbook"));
 
 	}
 }
