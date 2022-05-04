@@ -1,0 +1,92 @@
+package maps;
+
+import java.util.ArrayList;
+
+public class PriorityQueue<T> {
+
+	private class Bundle{
+		
+		T element;
+		int priority;
+		
+		public Bundle(T e, int p) {
+			element = e;
+			priority = p;
+			
+		}
+		
+		public String toString() {
+			
+			return element + " : " + priority;
+			
+		}
+		
+	}
+	
+	ArrayList<Bundle> queue = new ArrayList<Bundle>();
+	
+	//pop: removes the first thing
+	public T pop() {
+		return queue.remove(0).element;
+		
+	}
+	
+	//size: says how big size is
+	public int size() {
+		return queue.size();
+		
+	}
+	
+	//toString
+	public String toString() {
+		
+		return queue.toString();
+				
+	}
+	
+	//put
+	public void put(T info, int p) {
+		
+		//adding to queue 
+		for (int i = 0; i<queue.size(); i++) {
+				
+			if (queue.get(i).priority < p) {
+			
+				queue.add(i, new Bundle(info, p));
+				return;
+			}
+			
+		}
+		
+		//to identify duplicates
+		if (queue.contains(new Bundle(info, p))) {
+			
+			for (int i = 0; i<queue.size(); i++) {
+				
+				if(queue.get(i).element.equals(info)) {
+					
+					queue.remove(i);
+					break;
+				}
+			}
+		}
+			
+		queue.add(new Bundle(info, p));
+			
+	}
+	
+	public static void main(String[] args) {
+		
+		PriorityQueue<String> s = new PriorityQueue<String>();
+		s.put("Tony", 2);
+		s.put("Ryan", 7); 
+		s.put("Anika", 17);
+		s.put("Bryan", 12);
+		s.put("Yumna", 16);
+		s.put("Hanson", 1);
+		s.put("Mare", 18);
+		s.pop();
+		System.out.println(s);
+		
+	}
+}
