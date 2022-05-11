@@ -1,0 +1,248 @@
+package trex;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+
+public class TRexFiller {
+
+	private final int WIDTH = 1000, HEIGHT = 700, PLAYERSPEED = 6;
+	private final int PLAYERWIDTH = WIDTH/6, PLAYERHEIGHT = HEIGHT/3;
+	private final int NUMCLOUDS = 3, CLOUDWIDTH = WIDTH/6, CLOUDHEIGHT = PLAYERHEIGHT/2;
+	private final int NUMCACTI = 3, CACTIWIDTH = WIDTH/8, CACTIHEIGHT = PLAYERHEIGHT/2;
+	
+	private Thing player;
+	private int playerxspeed = 0, playeryspeed = 0;
+	private int grav = 10;
+	
+	private ArrayList<Thing> cacti = new ArrayList<Thing>();
+	private ArrayList<Thing> clouds = new ArrayList<Thing>();
+	
+	private int lives = 1, playerSpeed = 0;
+	
+	// booleans to keep track of the game's progress
+	private boolean lost = false, paused = true, won = false;
+	
+	private int hscore = 0, score = 0;
+	
+	public void setup() {
+		
+		int cloudx = 0, cloudy = 0;
+		int cactix = 0, cactiy = 0;
+		
+		//creating setup for aliens
+		for (int i = 0; i< NUMCLOUDS; i++) {
+			Thing c = new Thing(cloudx, cloudy, CLOUDWIDTH, CLOUDHEIGHT, "Images/cloud.png");
+			clouds.add(c);
+			
+			//spacing in between aliens
+			cloudx += 2*PLAYERWIDTH;
+			
+			//creates next row of clouds when there's no more space for the current row
+			if (cloudx + PLAYERWIDTH > WIDTH) {
+				cloudx = 0;
+				cloudy += 2*PLAYERHEIGHT;
+				
+			}
+			
+		}
+		
+		for (int i = 0; i< NUMCACTI; i++) {
+			Thing c = new Thing(WIDTH/2 + PLAYERWIDTH, HEIGHT/2 + 135, CACTIWIDTH, CACTIHEIGHT, "Images/cacti.png");
+			cacti.add(c);
+			
+			if (cactix + PLAYERWIDTH > WIDTH) {
+				cactix = 0;
+				cactiy += 2*PLAYERHEIGHT;
+				
+			}
+			
+		}
+		
+		player = new Thing(PLAYERWIDTH/2, HEIGHT/2 + 135, PLAYERWIDTH, PLAYERHEIGHT/2, "Images/trex.png");
+		
+		
+		
+	}
+	
+	
+	public void draw(Graphics g) {
+		
+		//setup for white background
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		//setup for line on ground
+		g.setColor(Color.BLACK);
+		g.fillRect(0, HEIGHT-100, WIDTH, HEIGHT-100);
+		
+		//setup for trex
+		player.draw(g);
+		
+		//setup for cloud images
+		for (int i = 0; i<clouds.size(); i++) {
+			clouds.get(i).draw(g);
+					
+		}
+		
+		//setup for cacti
+		for (int i = 0; i<cacti.size(); i++) {
+			cacti.get(i).draw(g);
+					
+		}
+		
+		//prints "You lose" or You Win" statements based on lost/won boolean is set to
+		if (lost) 
+			g.drawString("You lose", WIDTH/2-25, HEIGHT/2);
+		
+		if (won) 
+			g.drawString("You win!", WIDTH/2-25, HEIGHT/2);
+
+		
+		
+	}
+	
+	private void checkCollisions() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i<cacti.size(); i++) {
+			
+			if (player.intersects(cacti.get(i))) {
+				lost = true;
+				
+			}
+			
+		}
+		
+	}
+	
+
+	public void move() {
+		
+		if (won || lost) {
+			return;
+			
+		}
+		
+		for (int i = 0; i<clouds.size(); i++) {
+			
+			clouds.get(i).moveX(-PLAYERSPEED);
+			
+			if (clouds.get(i).x + CLOUDWIDTH < 0) {
+				clouds.get(i).moveX(WIDTH+CLOUDWIDTH);;
+				
+			}
+			
+		}
+		
+		for (int i = 0; i<cacti.size(); i++) {
+			
+			cacti.get(i).moveX(-PLAYERSPEED);
+			
+			if (cacti.get(i).x + CACTIWIDTH < 0) {
+				cacti.get(i).moveX(WIDTH+CACTIWIDTH);;
+				
+			}
+			
+		}
+		
+		if (player.y < HEIGHT/2 + 135) {
+			
+			playeryspeed = grav;
+			
+		}
+		
+		if (playeryspeed == grav && player.y >= HEIGHT/2 + 135) {
+			
+			playeryspeed = 0; 
+			
+		}
+		
+		player.moveY(playeryspeed);
+	}
+
+	
+	public TRexFiller() {
+		setup();
+		JFrame frame = new JFrame();
+		frame.setSize(WIDTH, HEIGHT);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JPanel canvas = new JPanel() {
+			public void paint(Graphics g) {draw(g);}
+		};
+//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "Left");
+//		canvas.getActionMap().put("Left", new LeftAction());
+//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "LeftRelease");
+//		canvas.getActionMap().put("LeftRelease", new LeftReleaseAction());
+		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false), " ");
+		canvas.getActionMap().put(" ", new SpaceAction());
+//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "Right");
+//		canvas.getActionMap().put("Right", new RightAction());
+//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "RightRelease");
+//		canvas.getActionMap().put("RightRelease", new RightReleaseAction());
+		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), "Pause");
+		canvas.getActionMap().put("Pause", new PauseAction());
+		frame.add(canvas);
+		frame.setVisible(true);
+		
+		while (true) {
+			if (!paused) {
+				move();
+				checkCollisions();
+				frame.getContentPane().repaint();
+			}
+			try {Thread.sleep(20);} 
+			catch (InterruptedException e) {}
+		}
+	}
+	
+//	private class RightAction extends AbstractAction {
+//		public void actionPerformed(ActionEvent e) {
+//			playerSpeed = PLAYERSPEED;
+//		}
+//	}
+//	
+//	private class LeftAction extends AbstractAction {
+//		public void actionPerformed(ActionEvent e) {
+//			playerSpeed = -PLAYERSPEED;
+//		}
+//	}
+//	private class LeftReleaseAction extends AbstractAction {
+//		public void actionPerformed(ActionEvent e) {
+//			playerSpeed = 0;
+//		}
+//	}
+//	private class RightReleaseAction extends AbstractAction {
+//		public void actionPerformed(ActionEvent e) {
+//			playerSpeed = 0;
+//		}
+//	}
+//
+	private class SpaceAction extends AbstractAction {
+		public void actionPerformed(ActionEvent e) {
+			playeryspeed = -1*(CACTIHEIGHT + PLAYERHEIGHT);
+		}
+	}
+	
+	
+	private class PauseAction extends AbstractAction {
+		public void actionPerformed(ActionEvent e) {
+			paused = !paused;
+		}
+	}
+	
+	public static void main(String[] args) {
+		new TRexFiller();
+	
+	}
+}
