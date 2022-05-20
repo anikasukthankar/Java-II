@@ -1,6 +1,10 @@
+//Anika Sukthankar 
+//Project: TRex Game
+
 package trex;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,68 +19,84 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class TRexFiller {
-
-	private final int WIDTH = 1000, HEIGHT = 700, PLAYERSPEED = 6;
-	private final int PLAYERWIDTH = WIDTH/6, PLAYERHEIGHT = HEIGHT/3;
-	private final int NUMCLOUDS = 3, CLOUDWIDTH = WIDTH/6, CLOUDHEIGHT = PLAYERHEIGHT/2;
-	private final int NUMCACTI = 3, CACTIWIDTH = WIDTH/8, CACTIHEIGHT = PLAYERHEIGHT/2;
 	
-	private Thing player;
-	private int playerxspeed = 0, playeryspeed = 0;
-	private int grav = 10;
+	//constants for dimensions of screen
+	private final int WIDTH = 1000, HEIGHT = 700;
 	
+	//variables for number of clouds & cloud dimensions
+	// don't change width & height - it won't break the code, it'll just look weird
+	private final int NUMCLOUDS = 4, CLOUDWIDTH = 50, CLOUDHEIGHT = 20;
+	
+	//variables for cacti width and height
+	private final int CACTIWIDTH = 130, CACTIHEIGHT = 50;
+	
+	//width, height, and speed of pdactyls
+	private final int PWIDTH = 42, PHEIGHT= 50;
+	private int PSPEED = 25;
+	
+	//variables for player dimensions & setup (player & playerx)
+	//playeryspeed: needed for player moving up/down 
+	private final int PLAYERWIDTH = 50, PLAYERHEIGHT = 75;
+	private int PLAYERSPEED = 10;
+	private TRex player;						
+	private int playerx = 200;					//x-coordinate of player
+	private int playeryspeed = 0;				//speed in y-direction of player
+	
+	//DO NOT CHANGE! 
+	//Otherwise, trex's jump will be messed up
+	private int ground = 525;					//height of top of black rectangle
+	private int grav = 12;						//speed at which player comes back down to ground (gravity)
+	private int jumppower = -9;					//speed at which player jumps up
+	private int jumpnum = 0;					//how many times player moves in a jump
+	private boolean jumping = false;			// boolean to determine whether player is jumping
+	private int lift = 0;						// determines delay in air (at highest point in jump)
+	
+	//array lists for cacti, clouds, & pdactyl
 	private ArrayList<Thing> cacti = new ArrayList<Thing>();
 	private ArrayList<Thing> clouds = new ArrayList<Thing>();
-	
-	private int lives = 1, playerSpeed = 0;
+	private ArrayList<TRex> pdactyl = new ArrayList<TRex>();
 	
 	// booleans to keep track of the game's progress
-	private boolean lost = false, paused = true, won = false;
+	private boolean lost = false, paused = true;
 	
-	private int hscore = 0, score = 0;
+	//controls player score and level of difficulty
+	//feel free to adjust difficulty!
+	private int score = 0;
+	private int DIFFICULTY = 50;
 	
+	//setup for all objects on screen (only for player and clouds)
 	public void setup() {
 		
-		int cloudx = 0, cloudy = 0;
-		int cactix = 0, cactiy = 0;
+		//initializes player 
+		player = new TRex(playerx, ground, PLAYERWIDTH, PLAYERHEIGHT, "Images/trexrup.png", "Images/trexlup.png");
 		
-		//creating setup for aliens
+		//creating setup for clouds
+		// makes sure they are randomized
 		for (int i = 0; i< NUMCLOUDS; i++) {
+			int cloudx = (int) (Math.random() * WIDTH);
+			int cloudy = (int) (Math.random()*(HEIGHT/2));
+			
 			Thing c = new Thing(cloudx, cloudy, CLOUDWIDTH, CLOUDHEIGHT, "Images/cloud.png");
 			clouds.add(c);
 			
-			//spacing in between aliens
+			//spacing in between clouds
 			cloudx += 2*PLAYERWIDTH;
 			
-			//creates next row of clouds when there's no more space for the current row
+			
 			if (cloudx + PLAYERWIDTH > WIDTH) {
 				cloudx = 0;
-				cloudy += 2*PLAYERHEIGHT;
-				
+
 			}
 			
 		}
-		
-		for (int i = 0; i< NUMCACTI; i++) {
-			Thing c = new Thing(WIDTH/2 + PLAYERWIDTH, HEIGHT/2 + 135, CACTIWIDTH, CACTIHEIGHT, "Images/cacti.png");
-			cacti.add(c);
-			
-			if (cactix + PLAYERWIDTH > WIDTH) {
-				cactix = 0;
-				cactiy += 2*PLAYERHEIGHT;
-				
-			}
-			
-		}
-		
-		player = new Thing(PLAYERWIDTH/2, HEIGHT/2 + 135, PLAYERWIDTH, PLAYERHEIGHT/2, "Images/trex.png");
-		
-		
 		
 	}
 	
-	
+	//draws graphics of all images/things of game
 	public void draw(Graphics g) {
+		
+		//variables for player & pdactyl (images change every 4 steps)
+		int f = 4, e = 8;
 		
 		//setup for white background
 		g.setColor(Color.WHITE);
@@ -84,43 +104,68 @@ public class TRexFiller {
 		
 		//setup for line on ground
 		g.setColor(Color.BLACK);
-		g.fillRect(0, HEIGHT-100, WIDTH, HEIGHT-100);
+		g.fillRect(0, HEIGHT-80, WIDTH, HEIGHT-80);
 		
-		//setup for trex
-		player.draw(g);
+		//draws setup for trex
+		//has an if statement 
+		if (score % e > f) {
+			player.draw(g, true);
+			
+		}
 		
-		//setup for cloud images
+		else {
+			player.draw(g, false);
+		}
+		
+		//draws clouds & its images based on setup
 		for (int i = 0; i<clouds.size(); i++) {
 			clouds.get(i).draw(g);
 					
 		}
 		
-		//setup for cacti
+		//draws cacti & its images based on setup
 		for (int i = 0; i<cacti.size(); i++) {
 			cacti.get(i).draw(g);
 					
 		}
 		
+		//draws pterodactyls & its images based on setup
+		//changes image of pdactyl (up & down wings) every 4 score/steps
+		for (int i = 0; i<pdactyl.size(); i++) {
+			
+			if (score % e > f) {
+				pdactyl.get(i).draw(g, true);
+			}
+			
+			else {
+				pdactyl.get(i).draw(g, false);
+			}		
+		}
+		
 		//prints "You lose" or You Win" statements based on lost/won boolean is set to
 		if (lost) 
 			g.drawString("You lose", WIDTH/2-25, HEIGHT/2);
-		
-		if (won) 
-			g.drawString("You win!", WIDTH/2-25, HEIGHT/2);
 
-		
+		g.setColor(Color.red);
+		g.drawString("Score: "+score, 15, 15);
 		
 	}
 	
+	//if player hits cacti or pdactyls, player loses
 	private void checkCollisions() {
-		// TODO Auto-generated method stub
+		
 		for (int i = 0; i<cacti.size(); i++) {
-			
 			if (player.intersects(cacti.get(i))) {
+				lost = true;
+			}
+			
+		}
+		
+		for (int i = 0; i<pdactyl.size(); i++) {
+			if (player.intersects(pdactyl.get(i))) {
 				lost = true;
 				
 			}
-			
 		}
 		
 	}
@@ -128,8 +173,70 @@ public class TRexFiller {
 
 	public void move() {
 		
-		if (won || lost) {
+		//if player loses, don't move
+		if (lost) {
 			return;
+			
+		}
+		
+		// determines when cacti spawn
+		// cacti spawns every multiple of difficulty
+		// when DIFFICULTY decreases, so does number of cacti
+		if (score % DIFFICULTY==0){
+			
+			double cspawn = 0.5;
+			
+			if (Math.random()>cspawn) {
+				Thing a = new Thing(WIDTH, HEIGHT-(100+CACTIHEIGHT), CACTIWIDTH/6, CACTIHEIGHT, "Images/cacti1.png");
+				cacti.add(a);
+			}
+			
+			else {
+				
+				Thing a = new Thing(WIDTH, HEIGHT-(100+CACTIHEIGHT), CACTIWIDTH/2, CACTIHEIGHT, "Images/cacti2.png");
+				cacti.add(a);
+			}
+			
+		}
+			
+		//with each multiple of 200, increase player and pdactyl speed
+		if (score % 200 == 0) {
+			PLAYERSPEED++;
+			PSPEED++;
+			
+			//makes difficulty harder until it reaches a certain limit of 10
+			//as DIFFICULTY decreases, the game gets harder
+			if (DIFFICULTY>10) {
+				DIFFICULTY-=2;
+				
+			}
+			
+		}
+		
+		score++;
+		
+		//once score gets to 300, spawn some pdactyls
+		if (score > 400) {
+			
+			//determines how often podactyls spawn based on difficulty 
+			if (score % (2*DIFFICULTY + DIFFICULTY/2) == 0) {
+				
+				TRex p = new TRex(WIDTH, HEIGHT/2, PWIDTH, PHEIGHT, "Images/pdactylup.png", "Images/pdactyldown.png");
+				pdactyl.add(p);
+			}
+			
+			for (int i = 0; i<pdactyl.size(); i++) {
+				
+				pdactyl.get(i).moveX(-PSPEED);
+				
+				//removes pdactyls that go off screen
+				if (pdactyl.get(i).x + PWIDTH < 0) {
+					pdactyl.remove(i);
+					
+				}
+				
+			}
+			
 			
 		}
 		
@@ -138,8 +245,12 @@ public class TRexFiller {
 			clouds.get(i).moveX(-PLAYERSPEED);
 			
 			if (clouds.get(i).x + CLOUDWIDTH < 0) {
-				clouds.get(i).moveX(WIDTH+CLOUDWIDTH);;
 				
+				int cloudx = (int) (Math.random() * WIDTH);
+				int cloudy = (int) (Math.random()*(HEIGHT/2));
+				
+				clouds.get(i).moveX(WIDTH+cloudx);
+				clouds.get(i).moveY(cloudy-clouds.get(i).y);
 			}
 			
 		}
@@ -149,28 +260,59 @@ public class TRexFiller {
 			cacti.get(i).moveX(-PLAYERSPEED);
 			
 			if (cacti.get(i).x + CACTIWIDTH < 0) {
-				cacti.get(i).moveX(WIDTH+CACTIWIDTH);;
+				cacti.remove(i);
 				
 			}
 			
 		}
 		
-		if (player.y < HEIGHT/2 + 135) {
+		//MOVE FOR PLAYER
+		//if jumpnum (gradual jump) is nonzero
+			// jumpnum decreases to counter 
+			//moves only a little bit at each timestep
+		//
+		if (jumpnum != 0) {
+			playeryspeed = jumppower;
+			jumpnum--;
 			
+			//when done jumping, set lift value equal to nonzero value so that it hovers for a bit
+			//delays time in air
+			if (jumpnum == 0) {
+				lift = 4;
+				
+			}
+			
+		}
+		
+		// doesn't move player anywhere when lift isn't 0
+		// stops it from immediately falling after jump is complete
+		//gives air time
+		if (lift != 0) {
+			playeryspeed = 0;
+			lift--;
+			
+		}
+		
+		// if player is not on ground & not jumping/in lift (delayed in air)
+		// then you set playeryspeed = gravity to make player fall back down to ground
+		if (player.y < ground && jumpnum == 0 && lift == 0) {
 			playeryspeed = grav;
 			
 		}
 		
-		if (playeryspeed == grav && player.y >= HEIGHT/2 + 135) {
-			
-			playeryspeed = 0; 
+		//if it hits ground, don't move player up or down on the y-axis
+		if (playeryspeed == grav && player.y >= ground) {
+			playeryspeed = 0;
+			jumping = false;
 			
 		}
 		
+		//moves player in whatever direction (up or down)
+		//based on whatever distance playeryspeed is set to
 		player.moveY(playeryspeed);
 	}
-
 	
+	//COPIED AND PASTED FROM SPACE INVADERS
 	public TRexFiller() {
 		setup();
 		JFrame frame = new JFrame();
@@ -180,21 +322,19 @@ public class TRexFiller {
 		JPanel canvas = new JPanel() {
 			public void paint(Graphics g) {draw(g);}
 		};
-//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "Left");
-//		canvas.getActionMap().put("Left", new LeftAction());
-//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "LeftRelease");
-//		canvas.getActionMap().put("LeftRelease", new LeftReleaseAction());
+		
+		//controls which keys are pressed and what classes they call
+		//keys used in this game: p (pause), enter (restart), and space bar (move player)
 		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false), " ");
 		canvas.getActionMap().put(" ", new SpaceAction());
-//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "Right");
-//		canvas.getActionMap().put("Right", new RightAction());
-//		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "RightRelease");
-//		canvas.getActionMap().put("RightRelease", new RightReleaseAction());
+		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "Enter");
+		canvas.getActionMap().put("Enter", new EnterAction());
 		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), "Pause");
 		canvas.getActionMap().put("Pause", new PauseAction());
 		frame.add(canvas);
 		frame.setVisible(true);
 		
+		//while game is running (unpaused), run move and checkCollisions functions
 		while (true) {
 			if (!paused) {
 				move();
@@ -204,43 +344,45 @@ public class TRexFiller {
 			try {Thread.sleep(20);} 
 			catch (InterruptedException e) {}
 		}
+		
 	}
 	
-//	private class RightAction extends AbstractAction {
-//		public void actionPerformed(ActionEvent e) {
-//			playerSpeed = PLAYERSPEED;
-//		}
-//	}
-//	
-//	private class LeftAction extends AbstractAction {
-//		public void actionPerformed(ActionEvent e) {
-//			playerSpeed = -PLAYERSPEED;
-//		}
-//	}
-//	private class LeftReleaseAction extends AbstractAction {
-//		public void actionPerformed(ActionEvent e) {
-//			playerSpeed = 0;
-//		}
-//	}
-//	private class RightReleaseAction extends AbstractAction {
-//		public void actionPerformed(ActionEvent e) {
-//			playerSpeed = 0;
-//		}
-//	}
-//
-	private class SpaceAction extends AbstractAction {
+	//RESTART FUNCTION
+	//When player hits enter key, variables are reset & functions are called again
+	private class EnterAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
-			playeryspeed = -1*(CACTIHEIGHT + PLAYERHEIGHT);
+			score = 0;
+			cacti.removeAll(cacti);
+			clouds.removeAll(clouds);
+			pdactyl.removeAll(pdactyl);
+			lost = false;
+			DIFFICULTY = 50;
+			PLAYERSPEED = 10;
+			PSPEED = 25;
+			setup();
+			paused= false;
 		}
 	}
 	
+	//if player is not already jumping, make them jump when user hits space bar
+	private class SpaceAction extends AbstractAction {
+		public void actionPerformed(ActionEvent e) {
+			
+			if (!jumping) {
+				jumpnum = 20;
+				jumping = true;
+			}
+		}
+	}
 	
+	//user pauses game when p is pressed
 	private class PauseAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			paused = !paused;
 		}
 	}
 	
+	//calls class to run entire program/game
 	public static void main(String[] args) {
 		new TRexFiller();
 	
