@@ -1,6 +1,11 @@
 //Anika Sukthankar 
 //Project: TRex Game
 
+//Space bar : moves trex up
+//P key: pauses game
+//enter key: restarts game
+//Enjoy!
+
 package trex;
 
 import java.awt.Color;
@@ -31,8 +36,10 @@ public class TRexFiller {
 	private final int CACTIWIDTH = 130, CACTIHEIGHT = 50;
 	
 	//width, height, and speed of pdactyls
+	//pspawn determines when pdactyls spawn (in terms of score)
 	private final int PWIDTH = 42, PHEIGHT= 50;
 	private int PSPEED = 25;
+	private int PSPAWN = 1500;
 	
 	//variables for player dimensions & setup (player & playerx)
 	//playeryspeed: needed for player moving up/down 
@@ -45,9 +52,9 @@ public class TRexFiller {
 	//DO NOT CHANGE! 
 	//Otherwise, trex's jump will be messed up
 	private int ground = 525;					//height of top of black rectangle
-	private int grav = 12;						//speed at which player comes back down to ground (gravity)
+	private int grav = 15;						//speed at which player comes back down to ground (gravity)
 	private int jumppower = -9;					//speed at which player jumps up
-	private int jumpnum = 0;					//how many times player moves in a jump
+	private int jumpnum = -20;					//how many times player moves in a jump
 	private boolean jumping = false;			// boolean to determine whether player is jumping
 	private int lift = 0;						// determines delay in air (at highest point in jump)
 	
@@ -82,7 +89,8 @@ public class TRexFiller {
 			//spacing in between clouds
 			cloudx += 2*PLAYERWIDTH;
 			
-			
+			//if it goes off screen, reset cloudx to 0
+			//this will redraw it at start of screen
 			if (cloudx + PLAYERWIDTH > WIDTH) {
 				cloudx = 0;
 
@@ -106,11 +114,10 @@ public class TRexFiller {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, HEIGHT-80, WIDTH, HEIGHT-80);
 		
-		//draws setup for trex
-		//has an if statement 
+		//draws setup for player/trex
+		//if statement decides which image of player (foot up or down) to use every 4 score/steps 
 		if (score % e > f) {
 			player.draw(g, true);
-			
 		}
 		
 		else {
@@ -130,7 +137,7 @@ public class TRexFiller {
 		}
 		
 		//draws pterodactyls & its images based on setup
-		//changes image of pdactyl (up & down wings) every 4 score/steps
+		//if statement decides which image of pdactyl (foot up or down) to use every 4 score/steps 
 		for (int i = 0; i<pdactyl.size(); i++) {
 			
 			if (score % e > f) {
@@ -145,7 +152,8 @@ public class TRexFiller {
 		//prints "You lose" or You Win" statements based on lost/won boolean is set to
 		if (lost) 
 			g.drawString("You lose", WIDTH/2-25, HEIGHT/2);
-
+		
+		//draws score at top of screen (like SpaceInvaders)
 		g.setColor(Color.red);
 		g.drawString("Score: "+score, 15, 15);
 		
@@ -164,16 +172,14 @@ public class TRexFiller {
 		for (int i = 0; i<pdactyl.size(); i++) {
 			if (player.intersects(pdactyl.get(i))) {
 				lost = true;
-				
 			}
 		}
 		
 	}
 	
-
 	public void move() {
 		
-		//if player loses, don't move
+		//if player loses, game stops
 		if (lost) {
 			return;
 			
@@ -184,15 +190,14 @@ public class TRexFiller {
 		// when DIFFICULTY decreases, so does number of cacti
 		if (score % DIFFICULTY==0){
 			
+			//generates a picture of either 1 or 2 cacti randomly (based on Math.random)
 			double cspawn = 0.5;
-			
 			if (Math.random()>cspawn) {
 				Thing a = new Thing(WIDTH, HEIGHT-(100+CACTIHEIGHT), CACTIWIDTH/6, CACTIHEIGHT, "Images/cacti1.png");
 				cacti.add(a);
 			}
 			
 			else {
-				
 				Thing a = new Thing(WIDTH, HEIGHT-(100+CACTIHEIGHT), CACTIWIDTH/2, CACTIHEIGHT, "Images/cacti2.png");
 				cacti.add(a);
 			}
@@ -200,7 +205,8 @@ public class TRexFiller {
 		}
 			
 		//with each multiple of 200, increase player and pdactyl speed
-		if (score % 200 == 0) {
+		int sinc = 200;
+		if (score % sinc == 0) {
 			PLAYERSPEED++;
 			PSPEED++;
 			
@@ -213,18 +219,20 @@ public class TRexFiller {
 			
 		}
 		
+		//score increases over time
 		score++;
 		
-		//once score gets to 300, spawn some pdactyls
-		if (score > 400) {
+		//once score gets to certain value, pdactyls spawn
+		if (score > PSPAWN) {
 			
-			//determines how often podactyls spawn based on difficulty 
+			//determines how often pdactyls spawn based on difficulty 
 			if (score % (2*DIFFICULTY + DIFFICULTY/2) == 0) {
 				
 				TRex p = new TRex(WIDTH, HEIGHT/2, PWIDTH, PHEIGHT, "Images/pdactylup.png", "Images/pdactyldown.png");
 				pdactyl.add(p);
 			}
 			
+			//pdactyls move in opposite direction as player
 			for (int i = 0; i<pdactyl.size(); i++) {
 				
 				pdactyl.get(i).moveX(-PSPEED);
@@ -240,9 +248,11 @@ public class TRexFiller {
 			
 		}
 		
+		//moves clouds in opposite directions as player
+		//draws clouds at random places in the sky (randomized x and y) and moves them as such
 		for (int i = 0; i<clouds.size(); i++) {
 			
-			clouds.get(i).moveX(-PLAYERSPEED);
+			clouds.get(i).moveX(-PLAYERSPEED);			
 			
 			if (clouds.get(i).x + CLOUDWIDTH < 0) {
 				
@@ -255,10 +265,11 @@ public class TRexFiller {
 			
 		}
 		
+		//cacti move in opposite direction as player
 		for (int i = 0; i<cacti.size(); i++) {
-			
 			cacti.get(i).moveX(-PLAYERSPEED);
 			
+			//removes cacti once it goes off screen
 			if (cacti.get(i).x + CACTIWIDTH < 0) {
 				cacti.remove(i);
 				
@@ -267,10 +278,8 @@ public class TRexFiller {
 		}
 		
 		//MOVE FOR PLAYER
-		//if jumpnum (gradual jump) is nonzero
-			// jumpnum decreases to counter 
-			//moves only a little bit at each timestep
-		//
+		//if jumpnum (gradual jump) is nonzero, jumpnum decreases to counter
+		//player moves only a little bit at each timestep
 		if (jumpnum != 0) {
 			playeryspeed = jumppower;
 			jumpnum--;
@@ -278,7 +287,7 @@ public class TRexFiller {
 			//when done jumping, set lift value equal to nonzero value so that it hovers for a bit
 			//delays time in air
 			if (jumpnum == 0) {
-				lift = 4;
+				lift = 3;
 				
 			}
 			
@@ -364,6 +373,7 @@ public class TRexFiller {
 		}
 	}
 	
+	//MOVES TREX
 	//if player is not already jumping, make them jump when user hits space bar
 	private class SpaceAction extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
