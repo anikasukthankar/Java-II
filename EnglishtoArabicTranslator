@@ -1,6 +1,7 @@
 package maps;
 
 import java.util.HashMap;
+import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,7 +12,7 @@ public class EnglishtoArabicTranslator {
 	private HashMap<String, String> translator = new HashMap<String, String>();
 	private final String file = "EnglishToArabicDictionary.txt";
 		
-	public EnglishtoArabicTranslator() {
+	public void setup() {
 		
 		try {
 			
@@ -37,7 +38,7 @@ public class EnglishtoArabicTranslator {
 			
 	}
 	
-	public String toString(String s) {
+	public String translate(String s) {
 		return translator.get(s);
 		
 	}
@@ -45,8 +46,11 @@ public class EnglishtoArabicTranslator {
 	public static void main(String[] args) {
 		
 		EnglishtoArabicTranslator test = new EnglishtoArabicTranslator();
-		//System.out.println(test.translator);
-		System.out.println(test.toString("logbook"));
+		Scanner s = new Scanner(System.in);
+		test.setup();
+		while(true) {
+			System.out.println(test.translate(s.next()));
+		}
 
 	}
 }
