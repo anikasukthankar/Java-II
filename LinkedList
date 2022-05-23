@@ -2,6 +2,7 @@ package lists;
 
 public class LinkedList<Q>{
 	
+	private int size = 0;
 	private class Node{
 		
 		Q info;
@@ -15,8 +16,7 @@ public class LinkedList<Q>{
 		
 	}
 
-	private Node head = null;
-	private int size;
+	private Node head;
 	
 	public void add(Q info) {
 		
@@ -46,24 +46,22 @@ public class LinkedList<Q>{
 		
 	}
 	
-	public void add(Q info, int n) {
+	public void add(int n, Q info) {
 		
 		try {
 			
-			Node curr = head;
 			Node newNode = new Node(info, null);
 			
 			if (n==0) {
 				
-				if (head == null) {
-					head = newNode;
-					
-				}
+				newNode.next = head;
+				head = newNode;
 							
 			}
 			
 			else {
 				
+				Node curr = head;
 				for (int i = 0; i<n-1; i++) {
 					curr = curr.next;
 					
@@ -86,41 +84,35 @@ public class LinkedList<Q>{
 		
 	}
 	
-	public Q get(int i) {
+	public Q get(int g) {
 		
 		try {
-		Node curr = head;
+			Node curr = head;
 		
-		for (int j = 0; j<i; j++) {
-			curr = curr.next;	
-		}
+			for (int j = 0; j<g; j++) {
+				curr = curr.next;	
+			}
 			
-		return curr.info;
+			return curr.info;
 	
-	}
+		}
 	
-	catch(NullPointerException e) {
-		throw new IndexOutOfBoundsException();
+		catch(NullPointerException e) {
+			throw new IndexOutOfBoundsException();
 		
 		}
-		
-	}
-	
-	public int size() {
-		return size;
 		
 	}
 	
 	public Q remove(int i) {
 		
 		try {
-		
-			Q storedInfo;
 			
 			if (i == 0) {
-				storedInfo = head.info;
+				Q inf = head.info;
 				head = head.next;
 				size--;
+				return inf;
 				
 			}
 			
@@ -132,14 +124,13 @@ public class LinkedList<Q>{
 					curr = curr.next;	
 				}
 				
-				storedInfo = curr.next.info;
+				Q inf = curr.next.info;
 				curr.next = curr.next.next;
 				size--;
+				return inf;
 				
 				
 			}
-			
-			return storedInfo;
 			
 		}
 		
@@ -153,17 +144,22 @@ public class LinkedList<Q>{
 	
 	public String toString() {
 		
-		String output = "";
-		
+		String o = "";
 		Node curr = head;
 		while (curr != null) {
 			
-			output += curr.info.toString() + "->";
+			o += curr.info.toString() + ",";
 			curr = curr.next;
 			
 		}
 		
-		return output;
+		o+= " null";
+		return o;
+		
+	}
+	
+	public int size() {
+		return size;
 		
 	}
 	
@@ -176,9 +172,9 @@ public class LinkedList<Q>{
 		test.add("name");
 		test.add("is");
 		test.add("Anika");
-		test.add("I", 4);
-		test.remove(3);
-		System.out.println(test);
+		System.out.println(test.remove(3));
+		System.out.println(test.toString());
+		
 		
 	}
 	
